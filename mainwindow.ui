@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>385</width>
-    <height>480</height>
+    <width>588</width>
+    <height>544</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout_7">
+   <layout class="QGridLayout" name="gridLayout_9">
     <item row="0" column="0">
      <widget class="QGroupBox" name="groupBox_16">
       <property name="font">
@@ -113,15 +113,12 @@
           </spacer>
          </item>
          <item>
-          <widget class="QCheckBox" name="cbComState">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
+          <widget class="QRadioButton" name="rbComState">
            <property name="text">
             <string/>
+           </property>
+           <property name="autoRepeatDelay">
+            <number>300</number>
            </property>
           </widget>
          </item>
@@ -142,6 +139,66 @@
        </item>
       </layout>
      </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_18">
+      <item>
+       <widget class="QPushButton" name="btnReady">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Ready</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnRun">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Run</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QCheckBox" name="cbJMode">
+          <property name="text">
+           <string>Joint Mode</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="cbCMode">
+          <property name="text">
+           <string>Cartesian Mode</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </item>
     <item row="1" column="0" rowspan="2">
      <widget class="QGroupBox" name="groupBox_17">
@@ -335,7 +392,7 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="1" colspan="2">
+    <item row="1" column="1">
      <widget class="QGroupBox" name="groupBox_4">
       <property name="font">
        <font>
@@ -346,9 +403,9 @@
       <property name="title">
        <string>Joint Data</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_5">
+      <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout_7">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <widget class="QLabel" name="label_37">
            <property name="font">
@@ -363,69 +420,8 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_38">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Joint 2 : </string>
-           </property>
-          </widget>
+          <widget class="QDoubleSpinBox" name="spJoint1"/>
          </item>
-         <item>
-          <widget class="QLabel" name="label_39">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>Joint 3 : </string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="1">
-        <layout class="QVBoxLayout" name="verticalLayout_8">
-         <item>
-          <widget class="QDoubleSpinBox" name="spJoint1">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="spJoint2">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="spJoint3">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="2">
-        <layout class="QVBoxLayout" name="verticalLayout_11">
          <item>
           <widget class="QLabel" name="label">
            <property name="font">
@@ -439,6 +435,26 @@
            </property>
           </widget>
          </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="label_38">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Joint 2 : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spJoint2"/>
+         </item>
          <item>
           <widget class="QLabel" name="label_2">
            <property name="font">
@@ -451,6 +467,26 @@
             <string>Deg</string>
            </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QLabel" name="label_39">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Joint 3 : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spJoint3"/>
          </item>
          <item>
           <widget class="QLabel" name="label_3">
@@ -470,7 +506,121 @@
       </layout>
      </widget>
     </item>
-    <item row="2" column="1" colspan="2">
+    <item row="1" column="2">
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="title">
+       <string>Joint Command</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <item>
+          <widget class="QLabel" name="label_43">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Joint 1 : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spJoint1Cmd"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Deg</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <widget class="QLabel" name="label_44">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Joint 2 : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spJoint2Cmd"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Deg</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <item>
+          <widget class="QLabel" name="label_45">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Joint 3 : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spJoint3Cmd"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_9">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Deg</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="2" column="1">
      <widget class="QGroupBox" name="groupBox_5">
       <property name="font">
        <font>
@@ -481,9 +631,9 @@
       <property name="title">
        <string>Cartesian Data</string>
       </property>
-      <layout class="QGridLayout" name="gridLayout_6">
+      <layout class="QGridLayout" name="gridLayout_5">
        <item row="0" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout_9">
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
          <item>
           <widget class="QLabel" name="label_40">
            <property name="font">
@@ -498,69 +648,8 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_41">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>End Y : </string>
-           </property>
-          </widget>
+          <widget class="QDoubleSpinBox" name="spEndX"/>
          </item>
-         <item>
-          <widget class="QLabel" name="label_42">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>End Z : </string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="1">
-        <layout class="QVBoxLayout" name="verticalLayout_10">
-         <item>
-          <widget class="QDoubleSpinBox" name="spEndX">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="spEndY">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QDoubleSpinBox" name="spEndZ">
-           <property name="font">
-            <font>
-             <weight>75</weight>
-             <bold>true</bold>
-            </font>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="2">
-        <layout class="QVBoxLayout" name="verticalLayout_14">
          <item>
           <widget class="QLabel" name="label_4">
            <property name="font">
@@ -574,6 +663,26 @@
            </property>
           </widget>
          </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
+         <item>
+          <widget class="QLabel" name="label_41">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>End Y : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spEndY"/>
+         </item>
          <item>
           <widget class="QLabel" name="label_5">
            <property name="font">
@@ -586,6 +695,26 @@
             <string>mm</string>
            </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_11">
+         <item>
+          <widget class="QLabel" name="label_42">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>End Z : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spEndZ"/>
          </item>
          <item>
           <widget class="QLabel" name="label_6">
@@ -605,23 +734,118 @@
       </layout>
      </widget>
     </item>
-    <item row="0" column="1" colspan="2">
-     <widget class="QPushButton" name="btnRun">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>100</height>
-       </size>
-      </property>
+    <item row="2" column="2">
+     <widget class="QGroupBox" name="groupBox_7">
       <property name="font">
        <font>
         <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
-      <property name="text">
-       <string>Run</string>
+      <property name="title">
+       <string>Cartesian Command</string>
       </property>
+      <layout class="QGridLayout" name="gridLayout_8">
+       <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_15">
+         <item>
+          <widget class="QLabel" name="label_46">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>End X : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spEndXCmd"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_10">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_16">
+         <item>
+          <widget class="QLabel" name="label_47">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>End Y : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spEndYCmd"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_11">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_17">
+         <item>
+          <widget class="QLabel" name="label_48">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>End Z : </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="spEndZCmd"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_12">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>mm</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
@@ -631,8 +855,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>385</width>
-     <height>21</height>
+     <width>588</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>
@@ -648,5 +872,38 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cbJMode</sender>
+   <signal>clicked()</signal>
+   <receiver>cbCMode</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>503</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>519</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbCMode</sender>
+   <signal>clicked()</signal>
+   <receiver>cbJMode</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>546</x>
+     <y>130</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>554</x>
+     <y>76</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

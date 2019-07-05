@@ -51,6 +51,7 @@ public:
     void writeGroupNewTorque(uint newTorque);
     void writeGroupNewTorque(uint newTorque1, uint newTorque2, uint newTorque3);
     void writeGroupNewVelocity(uint newVelocity1, uint newVelocity2, uint newVelocity3);
+    void writeGroupNewPosition(uint newPosition1, uint newPosition2, uint newPosition3);
 private:
     QSerialPort *serial;
 
@@ -108,5 +109,8 @@ private:
     uint readDataParsingUint(uint addr, uint id);
     int readDataParsingInt(uint addr, uint id);
 };
+
+const double ENC2DEG = 360/4096.0;
+const uint DEG2ENC = 4096/360;
 
 #endif // JUNISERVO_H

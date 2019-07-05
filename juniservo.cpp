@@ -286,6 +286,42 @@ void JuniServo::writeGroupNewPosition(uint param)
     serial->waitForBytesWritten(-1);
 }
 
+void JuniServo::writeGroupNewPosition(uint param1, uint param2, uint param3)
+{
+    uint head = 0x96;
+    uint id = 0xFF;
+    uint addr = REG_POSITION_NEW;
+    uchar params[9];
+    params[0] = 0x01;
+    params[1] = static_cast<uchar>(param1%256);
+    params[2] = static_cast<uchar>(param1/256);
+    params[3] = 0x02;
+    params[4] = static_cast<uchar>(param2%256);
+    params[5] = static_cast<uchar>(param2/256);
+    params[6] = 0x03;
+    params[7] = static_cast<uchar>(param3%256);
+    params[8] = static_cast<uchar>(param3/256);
+    uint checksum = 0;
+    for(uint i = 0; i < 9; i++){
+        checksum += params[i];
+    }
+    uint len = 9;
+    checksum += (addr + id + len);
+    checksum %= 256;
+
+    QByteArray data;
+    data.append(static_cast<char>(head));
+    data.append(static_cast<char>(id));
+    data.append(static_cast<char>(addr));
+    data.append(static_cast<char>(len));
+    for(uint i = 0; i < 9; i++){
+        data.append(static_cast<char>(params[i]));
+    }
+    data.append(static_cast<char>(checksum));
+    serial->write(data);
+    serial->waitForBytesWritten(-1);
+}
+
 void JuniServo::writeGroupNewVelocity(uint param)
 {
     uint head = 0x96;

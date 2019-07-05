@@ -27,11 +27,15 @@ CONFIG += c++11
 SOURCES += \
         juniservo.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        numerical.cpp \
+        robotarm.cpp
 
 HEADERS += \
         juniservo.h \
-        mainwindow.h
+        mainwindow.h \
+        numerical.h \
+        robotarm.h
 
 FORMS += \
         mainwindow.ui

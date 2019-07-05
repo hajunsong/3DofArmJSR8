@@ -15,12 +15,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     connect(ui->btnConnect, SIGNAL(clicked()), this, SLOT(btnConnectClicked()));
     connect(ui->btnRun, SIGNAL(clicked()), this, SLOT(btnRunClicked()));
+    connect(ui->btnReady, SIGNAL(clicked()), this, SLOT(btnReadyClicked()));
 
     ReadSettings();
 
     updateTimer = new QTimer(this);
-    updateTimer->setInterval(10);
+    updateTimer->setInterval(100);
     connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateTimeout()));
+
+    ui->spJoint1->setRange(-360, 360);
+    ui->spJoint2->setRange(-360, 360);
+    ui->spJoint3->setRange(-360, 360);
+
+    ui->spJoint1Cmd->setRange(-360, 360);
+    ui->spJoint2Cmd->setRange(-360, 360);
+    ui->spJoint3Cmd->setRange(-360, 360);
+
+    ui->spEndX->setRange(-999, 999);
+    ui->spEndY->setRange(-999, 999);
+    ui->spEndZ->setRange(-999, 999);
+
+    ui->spEndXCmd->setRange(-999, 999);
+    ui->spEndYCmd->setRange(-999, 999);
+    ui->spEndZCmd->setRange(-999, 999);
+
+    ui->btnRun->setDisabled(1);
+
+    ui->cbJMode->setChecked(1);
+
+    robot = new RobotArm(3,3);
 }
 
 MainWindow::~MainWindow()
@@ -28,6 +51,7 @@ MainWindow::~MainWindow()
     WriteSettings();
     delete ui;
     delete servo;
+    delete robot;
 }
 
 void MainWindow::ReadSettings()
@@ -76,15 +100,95 @@ void MainWindow::btnConnectClicked()
     }
     else{
         connectState = servo->connect(ui->comboPort->currentText(), ui->comboBaud->currentText());
-        if (connectState) ReadSettings();
     }
     ui->btnConnect->setText(connectState ? "Disconnect" : "Connect");
 }
 
 void MainWindow::btnRunClicked()
 {
+    if (ui->cbJMode->isChecked()){
+        uint cmdPos1 = 0, cmdPos2 = 0, cmdPos3 = 0;
+
+        if (ui->spJoint1Cmd->value() > 0){
+            cmdPos1 = curPos1 - static_cast<uint>(ui->spJoint1Cmd->value()*DEG2ENC);
+        }
+        else{
+            cmdPos1 = curPos1 + static_cast<uint>(abs(ui->spJoint1Cmd->value())*DEG2ENC);
+        }
+
+        if (ui->spJoint2Cmd->value() > 0){
+            cmdPos2 = curPos2 - static_cast<uint>(ui->spJoint2Cmd->value()*DEG2ENC);
+        }
+        else{
+            cmdPos2 = curPos2 + static_cast<uint>(abs(ui->spJoint2Cmd->value())*DEG2ENC);
+        }
+
+        if (ui->spJoint3Cmd->value() > 0){
+            cmdPos3 = curPos3 + static_cast<uint>(ui->spJoint3Cmd->value()*DEG2ENC);
+        }
+        else{
+            cmdPos3 = curPos3 - static_cast<uint>(abs(ui->spJoint3Cmd->value())*DEG2ENC);
+        }
+
+        servo->writeGroupNewPosition(cmdPos1, cmdPos2, cmdPos3);
+
+        ui->spJoint1Cmd->setValue(0);
+        ui->spJoint2Cmd->setValue(0);
+        ui->spJoint3Cmd->setValue(0);
+    }
+
+    if (ui->cbCMode->isChecked()){
+        double des_pos[3], delta_pos[3], q[3];
+        delta_pos[0] = ui->spEndXCmd->value();
+        delta_pos[1] = ui->spEndYCmd->value();
+        delta_pos[2] = ui->spEndZCmd->value();
+        des_pos[0] = (delta_pos[0] + ui->spEndX->value())*0.001;
+        des_pos[1] = (delta_pos[1] + ui->spEndY->value())*0.001;
+        des_pos[2] = (delta_pos[2] + ui->spEndZ->value())*0.001;
+
+        robot->run_inverse_kinematics(des_pos, q);
+
+        cout << "des_pos : " << des_pos[0] << ", " << des_pos[1] << ", " << des_pos[2] << endl;
+        cout << "q : " << q[0] << ", " << q[1] << ", " << q[2] << endl;
+        cout << "q enc : " << q[0]*RAD2DEG*DEG2ENC << ", " << q[1]*RAD2DEG*DEG2ENC << ", " << q[2]*RAD2DEG*DEG2ENC << endl;
+        cout << "curPos : " << curPos1 << ", " << curPos2 << ", " << curPos3 << endl;
+
+//        servo->writeGroupNewPosition(static_cast<uint>(q[0]*RAD2DEG*DEG2ENC), static_cast<uint>(q[1]*RAD2DEG*DEG2ENC), static_cast<uint>(q[2]*RAD2DEG*DEG2ENC));
+
+        ui->spEndXCmd->setValue(0);
+        ui->spEndYCmd->setValue(0);
+        ui->spEndZCmd->setValue(0);
+    }
+
+}
+
+void MainWindow::updateTimeout()
+{
+    ui->rbComState->toggle();
+    curPos1 = servo->readPosition(1);
+    curPos2 = servo->readPosition(2);
+    curPos3 = servo->readPosition(3);
+    ui->spJoint1->setValue(static_cast<int>(curPos1 - offset1)*ENC2DEG*(-1));
+    ui->spJoint2->setValue(static_cast<int>(curPos2 - offset2)*ENC2DEG*(-1) + 15);
+    ui->spJoint3->setValue(static_cast<int>(curPos3 - offset3)*ENC2DEG + 120);
+
+    double q[3], end[3];
+    q[0] = ui->spJoint1->value()*DEG2RAD;
+    q[1] = ui->spJoint2->value()*DEG2RAD;
+    q[2] = ui->spJoint3->value()*DEG2RAD;
+
+    robot->run_kinematics(q, end);
+    ui->spEndX->setValue(end[0]*1000);
+    ui->spEndY->setValue(end[1]*1000);
+    ui->spEndZ->setValue(end[2]*1000);
+}
+
+void MainWindow::btnReadyClicked(){
     if (connectState){
-        if (ui->btnRun->text().compare("Run")){
+        if (!ui->btnReady->text().compare("Ready")){
+            ui->btnReady->setText("Stop");
+            updateTimer->start();
+
             uint vel1 = ui->txtVel_1->text().toUInt();
             uint vel2 = ui->txtVel_2->text().toUInt();
             uint vel3 = ui->txtVel_3->text().toUInt();
@@ -93,35 +197,16 @@ void MainWindow::btnRunClicked()
             uint tor3 = ui->txtTor_3->text().toUInt();
             servo->writeGroupNewVelocity(vel1, vel2, vel3);
             servo->writeGroupNewTorque(tor1, tor2, tor3);
-            ui->btnRun->setText("Stop");
-            updateTimer->start();
+
+            servo->writeGroupNewPosition(offset1, offset2, offset3);
+            ui->btnRun->setEnabled(1);
         }
         else{
             servo->writeGroupNewVelocity(0, 0, 0);
             servo->writeGroupNewTorque(0, 0, 0);
-            ui->btnRun->setText("Run");
+            ui->btnReady->setText("Ready");
             updateTimer->stop();
+            ui->btnRun->setDisabled(1);
         }
     }
-}
-
-void MainWindow::setVelTor(int arg)
-{
-    QString name = sender()->objectName();
-    QString target = name.split("_").at(0);
-    uint id = name.split("_").at(1).toUInt();
-
-    if (connectState){
-        if (target.contains("vel", Qt::CaseInsensitive)){
-            servo->writeNewVelocity(id, static_cast<uint>(arg));
-        }
-        else if (target.contains("tor", Qt::CaseInsensitive)){
-            servo->writeNewTorque(id, static_cast<uint>(arg));
-        }
-    }
-}
-
-void MainWindow::updateTimeout()
-{
-
 }
