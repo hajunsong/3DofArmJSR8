@@ -95,8 +95,6 @@ void RobotArm::run_kinematics(){
 }
 
 void RobotArm::run_kinematics(double *q, double *end){
-
-
     bodys[1].qi = q[0];
     bodys[2].qi = q[1];
     bodys[3].qi = -(M_PI - (q[2] - q[1]));
@@ -148,7 +146,7 @@ void RobotArm::run_inverse_kinematics(double *des_pos, double *q){
 
     q[0] = bodys[1].qi;
     q[1] = bodys[2].qi;
-    q[2] = M_PI + bodys[3].qi + theta[1];
+    q[2] = M_PI + bodys[3].qi + q[1];
 }
 
 void RobotArm::kinematics(){

@@ -148,18 +148,42 @@ void MainWindow::btnRunClicked()
 
         robot->run_inverse_kinematics(des_pos, q);
 
-        cout << "des_pos : " << des_pos[0] << ", " << des_pos[1] << ", " << des_pos[2] << endl;
-        cout << "q : " << q[0] << ", " << q[1] << ", " << q[2] << endl;
-        cout << "q enc : " << q[0]*RAD2DEG*DEG2ENC << ", " << q[1]*RAD2DEG*DEG2ENC << ", " << q[2]*RAD2DEG*DEG2ENC << endl;
-        cout << "curPos : " << curPos1 << ", " << curPos2 << ", " << curPos3 << endl;
+        double delta_q[3];
+        delta_q[0] = q[0]*RAD2DEG - ui->spJoint1->value();
+        delta_q[1] = q[1]*RAD2DEG - ui->spJoint2->value();
+        delta_q[2] = q[2]*RAD2DEG - ui->spJoint3->value();
 
-//        servo->writeGroupNewPosition(static_cast<uint>(q[0]*RAD2DEG*DEG2ENC), static_cast<uint>(q[1]*RAD2DEG*DEG2ENC), static_cast<uint>(q[2]*RAD2DEG*DEG2ENC));
+        cout << "delta_q : " << delta_q[0] << ", " << delta_q[1] << ", " << delta_q[2] << endl;
+
+        uint cmdPos1 = 0, cmdPos2 = 0, cmdPos3 = 0;
+        if (delta_q[0] > 0){
+            cmdPos1 = curPos1 - static_cast<uint>(delta_q[0]*DEG2ENC);
+        }
+        else{
+            cmdPos1 = curPos1 + static_cast<uint>(abs(delta_q[0])*DEG2ENC);
+        }
+
+        if (delta_q[1] > 0){
+            cmdPos2 = curPos2 - static_cast<uint>(delta_q[1]*DEG2ENC);
+        }
+        else{
+            cmdPos2 = curPos2 + static_cast<uint>(abs(delta_q[1])*DEG2ENC);
+        }
+
+        if (delta_q[2] > 0){
+            cmdPos3 = curPos3 + static_cast<uint>(delta_q[2]*DEG2ENC);
+        }
+        else{
+            cmdPos3 = curPos3 - static_cast<uint>(abs(delta_q[2])*DEG2ENC);
+        }
+        cout << "cmdPos : " << cmdPos1 << ", " << cmdPos2 << ", " << cmdPos3 << endl;
+
+        servo->writeGroupNewPosition(cmdPos1, cmdPos2, cmdPos3);
 
         ui->spEndXCmd->setValue(0);
         ui->spEndYCmd->setValue(0);
         ui->spEndZCmd->setValue(0);
     }
-
 }
 
 void MainWindow::updateTimeout()

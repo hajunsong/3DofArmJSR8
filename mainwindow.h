@@ -49,6 +49,6 @@ private:
 };
 
 const double DEG2RAD = M_PI/180.0;
-const double RAD2DEG = 180/M_PI;
+const double RAD2DEG = 180.0/M_PI;
 
 #endif // MAINWINDOW_H
