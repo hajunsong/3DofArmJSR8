@@ -202,24 +202,10 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <item>
-               <widget class="QLineEdit" name="txtVel1">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
+               <widget class="QLineEdit" name="txtVel_1"/>
               </item>
               <item>
-               <widget class="QLineEdit" name="txtTor1">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
+               <widget class="QLineEdit" name="txtTor_1"/>
               </item>
              </layout>
             </item>
@@ -275,24 +261,10 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_4">
               <item>
-               <widget class="QLineEdit" name="txtVel2">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
+               <widget class="QLineEdit" name="txtVel_2"/>
               </item>
               <item>
-               <widget class="QLineEdit" name="txtTor2">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
+               <widget class="QLineEdit" name="txtTor_2"/>
               </item>
              </layout>
             </item>
@@ -348,24 +320,10 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
-               <widget class="QLineEdit" name="txtVel3">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
+               <widget class="QLineEdit" name="txtVel_3"/>
               </item>
               <item>
-               <widget class="QLineEdit" name="txtTor3">
-                <property name="font">
-                 <font>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-               </widget>
+               <widget class="QLineEdit" name="txtTor_3"/>
               </item>
              </layout>
             </item>
