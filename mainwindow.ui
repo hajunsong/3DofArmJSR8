@@ -196,6 +196,13 @@
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="cbRectMode">
+          <property name="text">
+           <string>Rect Motion</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -872,38 +879,5 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections>
-  <connection>
-   <sender>cbJMode</sender>
-   <signal>clicked()</signal>
-   <receiver>cbCMode</receiver>
-   <slot>toggle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>503</x>
-     <y>82</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>519</x>
-     <y>125</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cbCMode</sender>
-   <signal>clicked()</signal>
-   <receiver>cbJMode</receiver>
-   <slot>toggle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>546</x>
-     <y>130</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>554</x>
-     <y>76</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

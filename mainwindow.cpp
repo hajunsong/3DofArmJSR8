@@ -44,6 +44,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->cbJMode->setChecked(1);
 
     robot = new RobotArm(3,3);
+
+    desX = 0;
+    desY = 0;
+    desZ = 0;
+
+    rectMode = false;
+    goalReach = false;
+    indx = 0;
+
+    QDateTime *date = new QDateTime();
+    _mkdir("../logging");
+    QString fileName = "../logging/" + date->currentDateTime().toString("yyyy-MM-dd-hh-mm-ss") + ".csv";
+    logger = new Logger(this, fileName);
+
+    logger->write("End X[m],End Y[m],End Z[m],q1[rad],q2[rad],q3[rad]");
 }
 
 MainWindow::~MainWindow()
@@ -52,6 +67,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete servo;
     delete robot;
+    delete logger;
 }
 
 void MainWindow::ReadSettings()
@@ -146,6 +162,10 @@ void MainWindow::btnRunClicked()
         des_pos[1] = (delta_pos[1] + ui->spEndY->value())*0.001;
         des_pos[2] = (delta_pos[2] + ui->spEndZ->value())*0.001;
 
+        desX = des_pos[0];
+        desY = des_pos[1];
+        desZ = des_pos[2];
+
         robot->run_inverse_kinematics(des_pos, q);
 
         double delta_q[3];
@@ -184,6 +204,9 @@ void MainWindow::btnRunClicked()
         ui->spEndYCmd->setValue(0);
         ui->spEndZCmd->setValue(0);
     }
+    if (ui->cbRectMode->isChecked()){
+        rectMode = true;
+    }
 }
 
 void MainWindow::updateTimeout()
@@ -205,6 +228,71 @@ void MainWindow::updateTimeout()
     ui->spEndX->setValue(end[0]*1000);
     ui->spEndY->setValue(end[1]*1000);
     ui->spEndZ->setValue(end[2]*1000);
+
+    curX = end[0];
+    curY = end[1];
+    curZ = end[2];
+
+    if (rectMode){
+        double des_pos[3], q[3];
+        des_pos[0] = path_rect[indx][0]*0.001;
+        des_pos[1] = path_rect[indx][1]*0.001;
+        des_pos[2] = path_rect[indx][2]*0.001;
+
+        desX = des_pos[0];
+        desY = des_pos[1];
+        desZ = des_pos[2];
+
+        robot->run_inverse_kinematics(des_pos, q);
+
+        double delta_q[3];
+        delta_q[0] = q[0]*RAD2DEG - ui->spJoint1->value();
+        delta_q[1] = q[1]*RAD2DEG - ui->spJoint2->value();
+        delta_q[2] = q[2]*RAD2DEG - ui->spJoint3->value();
+
+        cout << "delta_q : " << delta_q[0] << ", " << delta_q[1] << ", " << delta_q[2] << endl;
+
+        uint cmdPos1 = 0, cmdPos2 = 0, cmdPos3 = 0;
+        if (delta_q[0] > 0){
+            cmdPos1 = curPos1 - static_cast<uint>(delta_q[0]*DEG2ENC);
+        }
+        else{
+            cmdPos1 = curPos1 + static_cast<uint>(abs(delta_q[0])*DEG2ENC);
+        }
+
+        if (delta_q[1] > 0){
+            cmdPos2 = curPos2 - static_cast<uint>(delta_q[1]*DEG2ENC);
+        }
+        else{
+            cmdPos2 = curPos2 + static_cast<uint>(abs(delta_q[1])*DEG2ENC);
+        }
+
+        if (delta_q[2] > 0){
+            cmdPos3 = curPos3 + static_cast<uint>(delta_q[2]*DEG2ENC);
+        }
+        else{
+            cmdPos3 = curPos3 - static_cast<uint>(abs(delta_q[2])*DEG2ENC);
+        }
+        cout << "cmdPos : " << cmdPos1 << ", " << cmdPos2 << ", " << cmdPos3 << endl;
+
+        servo->writeGroupNewPosition(cmdPos1, cmdPos2, cmdPos3);
+
+        double dist = 0;
+        dist = sqrt(pow((curX - desX), 2) + pow((curY - desY), 2) + pow((curZ - desZ), 2));
+        if (dist < 0.005){
+            indx = indx >= maxIndx - 1 ? 0 : indx + 1;
+        }
+    }
+
+    QString msg = QString::number(end[0]) + "," + QString::number(end[1]) + "," + QString::number(end[2]) + "," +
+            QString::number(q[0]) + "," + QString::number(q[1]) + "," + QString::number(q[2]);
+    logger->write(msg);
+
+//    if ((desX > 0 || desX < 0) || (desY > 0 || desY < 0) || (desZ > 0 || desZ < 0)){
+//        qDebug() << "err X : " + QString::number(abs(desX - curX)*1000) + " mm";
+//        qDebug() << "err Y : " + QString::number(abs(desY - curY)*1000) + " mm";
+//        qDebug() << "err Z : " + QString::number(abs(desZ - curZ)*1000) + " mm";
+//    }
 }
 
 void MainWindow::btnReadyClicked(){
@@ -231,6 +319,32 @@ void MainWindow::btnReadyClicked(){
             ui->btnReady->setText("Ready");
             updateTimer->stop();
             ui->btnRun->setDisabled(1);
+            rectMode = false;
+            indx = 0;
         }
+    }
+}
+
+void MainWindow::on_cbJMode_stateChanged(int arg1)
+{
+    if (arg1){
+        ui->cbCMode->setChecked(0);
+        ui->cbRectMode->setChecked(0);
+    }
+}
+
+void MainWindow::on_cbCMode_stateChanged(int arg1)
+{
+    if (arg1){
+        ui->cbJMode->setChecked(0);
+        ui->cbRectMode->setChecked(0);
+    }
+}
+
+void MainWindow::on_cbRectMode_stateChanged(int arg1)
+{
+    if (arg1){
+        ui->cbCMode->setChecked(0);
+        ui->cbJMode->setChecked(0);
     }
 }

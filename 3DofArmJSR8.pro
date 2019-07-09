@@ -26,6 +26,7 @@ CONFIG += c++11
 
 SOURCES += \
         juniservo.cpp \
+        logger.cpp \
         main.cpp \
         mainwindow.cpp \
         numerical.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
 
 HEADERS += \
         juniservo.h \
+        logger.h \
         mainwindow.h \
         numerical.h \
         robotarm.h

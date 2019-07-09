@@ -5,9 +5,12 @@
 #include <QSettings>
 #include <QtDebug>
 #include <QTimer>
+#include <QDateTime>
+#include <direct.h>
 
 #include "juniservo.h"
 #include "robotarm.h"
+#include "logger.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +33,10 @@ public slots:
 
     void updateTimeout();
 
+    void on_cbJMode_stateChanged(int arg1);
+    void on_cbCMode_stateChanged(int arg1);
+    void on_cbRectMode_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 
@@ -46,9 +53,25 @@ private:
     uint curPos1, curPos2, curPos3;
 
     RobotArm *robot;
+
+    double desX, desY, desZ, curX, curY, curZ;
+
+    bool goalReach, rectMode;
+    uint indx;
+
+    Logger *logger;
 };
 
 const double DEG2RAD = M_PI/180.0;
 const double RAD2DEG = 180.0/M_PI;
+const uint maxIndx = 4;
+const double path_rect[maxIndx][3] = {
+//    {-0.75, 250.37, -15.2963},
+    {-175,  180.37, -15.2963},
+    {-175,  180.37,  75.2963},
+    { 175,  180.37,  75.2963},
+    { 175,  180.37, -15.2963},
+//    {-0.75, 250.37, -15.2963},
+};
 
 #endif // MAINWINDOW_H
