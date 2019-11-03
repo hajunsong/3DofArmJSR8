@@ -3,4 +3,4 @@
 cd ~/catkin_ws/src
 git clone git clone https://github.com/KETI-AN/Robot_System.git
 
-!move_dir_catkin_workspace(./image/move_dir_catkin_workspace.png)
+![move_dir_catkin_workspace](./image/move_dir_catkin_workspace.png)
