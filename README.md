@@ -3,8 +3,9 @@
 
 ### Linux Version : Ubuntu 18.04.3 LTS
 ### ROS version : melodic
-### Qt[Qt](https://doc.qt.io/qt-5/gettingstarted.html), Intera SDK[Intera SDK](https://github.com/KETI-AN/Robot_System/wiki/1_2-%EB%A1%9C%EB%B4%87-%EC%84%A4%EC%A0%95(Sawyer-%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC-%ED%99%98%EA%B2%BD%EC%84%A4%EC%A0%95-:-%EC%9A%B0%EB%B6%84%ED%88%ACPC)) installed
+### [Qt](https://doc.qt.io/qt-5/gettingstarted.html), [Intera SDK](https://sdk.rethinkrobotics.com/intera/Workstation_Setup) installed
 
+***
 
 ### 1. 프로젝트 다운로드
 ~~~
