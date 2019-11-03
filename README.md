@@ -1,10 +1,10 @@
 ***
 
-## Environment & Prequirement
+### Environment & Prequirement
 
-### Linux Version : Ubuntu 18.04.3 LTS
-### ROS version : melodic
-### [Qt](https://doc.qt.io/qt-5/gettingstarted.html), [Intera SDK](https://sdk.rethinkrobotics.com/intera/Workstation_Setup) installed
+#### Linux Version : Ubuntu 18.04.3 LTS
+#### ROS version : melodic
+#### [Qt](https://doc.qt.io/qt-5/gettingstarted.html), [Intera SDK](https://sdk.rethinkrobotics.com/intera/Workstation_Setup) installed
 
 ***
 
