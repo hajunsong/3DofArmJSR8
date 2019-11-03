@@ -1,3 +1,4 @@
+***
 
 ## Environment & Prequirement
 
@@ -53,7 +54,9 @@ $ rosrun sawyer_control sawyer_client.py XX
 ![sawyer_move_1](./image/sawyer_move_1.png)
 ![sawyer_move_2](./image/sawyer_move_2.png)
 
-### 10. source code manual
+***
+
+### source code manual
 ``` cpp
 void MainWindow::btnMoveClicked(){
     double txDataDoubleRight[7] = {0.0,};
